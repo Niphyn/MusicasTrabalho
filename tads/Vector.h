@@ -44,4 +44,10 @@ void vector_print_lista_musicas(int *lista_musicas, int  lista_tamanho, Vector v
 
 void vector_listar_musica(int idx_m, Vector vetor_musica, Vector vetor_artista);
 
+void vector_gerar_relatorio(Vector vetor_playlist);
+
+void vector_ordenar_musicas(Vector vetor_musicas, Vector vetor_qtd);
+
+void vector_ordenar_artistas(Vector vetor_artistas, Vector vetor_qtd);
+
 #endif

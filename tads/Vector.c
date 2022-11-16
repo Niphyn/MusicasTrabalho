@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Vector.h"
 #include "Musica.h"
 #include "Artista.h"
@@ -220,3 +221,112 @@ void vector_listar_musica(int idx_m, Vector vetor_musica, Vector vetor_artista){
 // int *vector_get_idx_playlists(Vector vetor_playlist){
 
 // }
+
+
+//Gerando os relatórios txt pertinentes às playlists
+
+void vector_gerar_relatorio(Vector vetor_playlist){
+
+    Vector vetor_qtd_musicas = vector_create(INT);
+    Vector vetor_qtd_artistas = vector_create(INT);
+    Vector vetor_musicas_playlist = vector_create(MUSICA);
+    Vector vetor_artistas_playlist = vector_create(ARTISTA);
+    
+    int playlist = 0, musica = 0,id,artista = 0,i,j,t=1;
+    int *h = &t;
+
+
+    i = vector_size(vetor_playlist);
+
+    for(playlist = 0; playlist < i;playlist++){
+        for(musica=0;musica<playlist_get_n_musicas(vector_get(vetor_playlist,playlist));musica++){
+            id = vector_find_id(vetor_musicas_playlist,vector_get(vector_get(vetor_playlist,playlist),musica));
+            if(id == -1){
+                vector_add(vetor_musicas_playlist,vector_get(vector_get(vetor_playlist,playlist),musica));
+                vector_add(vetor_qtd_musicas,h);
+                //se não tiver no vetor qtd musicas
+            }else{
+                vetor_qtd_musicas->data[id] = vector_get(vetor_qtd_musicas,id) + 1;
+                //se já tiver no vetor qtd musicass
+            }
+        }
+    }
+
+    int *artistas_musicas;
+
+    for(playlist = 0; playlist < vector_size(vetor_playlist);playlist++){
+        for(musica=0;musica<playlist_get_n_musicas(vector_get(vetor_playlist,playlist));musica++){
+            artistas_musicas = musica_get_indices(vector_get(vector_get(vetor_playlist,playlist),musica))
+            for(artista = 0; artista < musica_get_n_artistas(vector_get(vector_get(vetor_playlist,playlist),musica));artista++){
+                id = vector_find_id(vetor_artistas_playlist,artistas_musicas[artista]);
+                if(id == -1){
+                vector_add(vetor_artistas_playlist,musica_get_indices(vetor_playlist->musicas[musica])[artista]);
+                vector_add(vetor_qtd_artistas,h);
+                //se não tiver no vetor qtd artistas
+            }else{
+                vetor_qtd_artistas[id] = vetor_qtd_artistas[id] + 1;
+                //se já tiver no vetor qtd artistas
+            }
+            }
+        }
+    }
+
+    int aux;
+    Musica musica1;
+    Artista artista1;
+    //Ordenar musicas
+
+    for(i=0;i<vector_size(vetor_musicas_playlist);i++){
+        for(j=i+1;j<vector_size(vetor_musicas_playlist),j++){
+            if(vetor_qtd_musicas[j]>vetor_qtd_musicas[i]){
+                aux = vetor_qtd_musicas[j];
+                vetor_qtd_musicas[j] = vetor_qtd_musicas[i];
+                vetor_qtd_musicas[i] = aux;
+                musica1 = vector_musicas_playlist[j];
+                vetor_musicas_playlist[j] = vetor_musicas_playlist[i];
+                vetor_musicas_playlist[i] = musica1;
+            }
+        }
+    }
+    
+
+    //Ordenar artista
+
+    for(i=0;i<vector_size(vetor_artistas_playlist);i++){
+        for(j=i+1;j<vector_size(vetor_artista_playlist),j++){
+            if(vetor_qtd_artistas[j]>vetor_qtd_artistas[i]){
+                aux = vetor_qtd_artistas[j];
+                vetor_qtd_artistas[j] = vetor_qtd_artistas[i];
+                vetor_qtd_artistas[i] = aux;
+                artista1 = vector_artistas_playlist[j];
+                vetor_artista_playlist[j] = vetor_artistas_playlist[i];
+                vetor_artista_playlist[i] = artista1;
+            }
+        }
+    }
+
+    FILE *pfile_musicas;
+    FILE *pfile_artistas;
+
+    pfile_musicas = fopen("./musicas_playlist.txt","w");
+    pfile_artistas = open("./artistas_playlist.txt","w");
+
+    //Escrever o arquivos txt musica
+
+    for(musica = 0;musica<vector_size(vetor_musicas_playlist);musica++){
+    fprintf("./musicas_playlist.txt","%d %s\n",vetor_qtd_musicas[musica],musica_get_nome(vetor_musicas_playlist[musica]));
+    }
+
+
+    //Escrever o arquivo txt artista
+
+    for(artista = 0;artista<vector_size(vetor_artista_playlist);artista++){
+    fprintf("./artistas_playlist.txt","d %s\n",vetor_qtd_artistas[artista],artista_get_nome(vetor_artista_playlist[artista]));
+    }
+
+    fclose(pfile_musicas);
+    fclose(pfile_artistas);
+
+    //Destruir os vetores
+    
+}

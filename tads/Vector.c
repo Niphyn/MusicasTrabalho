@@ -312,8 +312,8 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas){
     FILE *pfile_musicas;
     FILE *pfile_artistas;
 
-    pfile_musicas = fopen("./musicas_playlist.txt","w");
-    pfile_artistas = open("./artistas_playlist.txt","w");
+    pfile_musicas = fopen("musicas_playlist.txt","w");
+    pfile_artistas = fopen("artistas_playlist.txt","w");
 
     //Escrever o arquivos txt musica
 

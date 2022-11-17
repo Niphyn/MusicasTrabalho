@@ -421,8 +421,10 @@ int musica_compara(char *str_musica,Musica musica){
 		retorno = strstr(musica_get_nome(musica),str_musica);
 		if(retorno != NULL){
 			return 1;
+			//caso igual
 		}else{
 			return 0;
+			//caso não igual
 		}
 }
 

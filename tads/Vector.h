@@ -9,7 +9,9 @@ typedef enum type
     PLAYLIST,
     INT,
     FLOAT,
-    CHAR
+    CHAR,
+    MUSICA_SHARED,
+    ARTISTA_SHARED,
 } Type;
 
 typedef void *VectorType;

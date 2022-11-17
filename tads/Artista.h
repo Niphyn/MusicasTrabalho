@@ -48,4 +48,6 @@ int artista_get_n_generos(Artista artista);
 char *artista_get_nome(Artista artista);
 int artista_get_popularidade(Artista artista);
 
+int artista_compara(char *str_musica,Artista artista);
+
 #endif

@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 		case (RECOMENDAR_MUSICA):
 			break;
 		case (GERAR_RELATORIO):
-			vector_gerar_relatorio(vetor_playlist);
+			vector_gerar_relatorio(vetor_playlist,vetor_artista);
 			break;
 		case (SAIR):
 			printf("SAINDO...\n");

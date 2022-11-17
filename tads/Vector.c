@@ -229,8 +229,8 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector
 
     Vector vetor_qtd_musicas = vector_create(INT);
     Vector vetor_qtd_artistas = vector_create(INT);
-    Vector vetor_musicas_playlist = vector_create(MUSICA);
-    Vector vetor_artistas_playlist = vector_create(ARTISTA);
+    Vector vetor_musicas_playlist = vector_create(MUSICA_SHARED);
+    Vector vetor_artistas_playlist = vector_create(ARTISTA_SHARED);
     
     int playlist = 0, musica = 0,id,artista = 0,i,j,t=1,n_musicas_playlist;
     int *poteiro_artistas_lista;
@@ -264,20 +264,25 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector
         }
     }
 
-    int *artistas_musicas;
 
-    listando os artistas nas playlists e contando a quantidade de vezes que aparecem
+    //listando os artistas nas playlists e contando a quantidade de vezes que aparecem
     for(playlist = 0; playlist < vector_size(vetor_playlist);playlist++){
-        for(musica=0;musica<playlist_get_n_musicas(vector_get(vetor_playlist,playlist));musica++){
-            artistas_musicas = musica_get_indices(vector_get(vector_get(vetor_playlist,playlist),musica));
+        n_musicas_playlist = playlist_get_n_musicas(vector_get(vetor_playlist,playlist));
+        for(musica = 0; musica < n_musicas_playlist; musica++){
+            musica1 = vector_get(vetor_musicas,playlist_get_musica(vector_get(vetor_playlist,playlist),musica));
             poteiro_artistas_lista = musica_get_indices(musica1);
-            musica1 = vector_get(vector_get(vetor_playlist,playlist),musica);
             for(artista = 0; artista < musica_get_n_artistas(musica1);artista++){
                 artista1 = vector_get(vetor_artistas,poteiro_artistas_lista[artista]);
-                id = vector_find_id(vetor_artistas_playlist,artista1);
+                id = -1;
+                for(i=0;i<vector_size(vetor_artistas_playlist);i++){
+                if(artista_compara(artista_get_nome(artista1), vetor_artistas_playlist->data[i]) == 1){
+                     id = i;
+                }
+            }  
                 if(id == -1){
                 vector_add(vetor_artistas_playlist,artista1);
-                vector_add(vetor_qtd_artistas,h);
+                vector_add(vetor_qtd_artistas,*h);
+
                 //se não tiver no vetor qtd artistas
             }else{
                 vetor_qtd_artistas->data[id] = vector_get(vetor_qtd_artistas,id) + 1;
@@ -335,7 +340,7 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector
     //Escrever o arquivo txt artista
 
     for(artista = 0;artista<vector_size(vetor_artistas_playlist);artista++){
-    fprintf(pfile_artistas,"d %s\n",vetor_qtd_artistas[artista],artista_get_nome(vetor_artistas_playlist->data[artista]));
+    fprintf(pfile_artistas,"%d %s\n",vetor_qtd_artistas->data[artista],artista_get_nome(vetor_artistas_playlist->data[artista]));
     }
 
     fclose(pfile_musicas);
@@ -349,3 +354,4 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector
     vector_destroy(vetor_artistas_playlist);
     
 }
+

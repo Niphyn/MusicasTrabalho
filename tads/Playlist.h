@@ -11,4 +11,6 @@ void playlist_destroy(Playlist playlist);
 char* playlist_get_nome(Playlist playlist);
 int playlist_get_n_musicas(Playlist playlist);
 
+int playlist_get_musica(Playlist playlist,int idx);
+
 #endif

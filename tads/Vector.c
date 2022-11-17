@@ -225,14 +225,14 @@ void vector_listar_musica(int idx_m, Vector vetor_musica, Vector vetor_artista){
 
 //Gerando os relatórios txt pertinentes às playlists
 
-void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas){
+void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector vetor_musicas){
 
     Vector vetor_qtd_musicas = vector_create(INT);
     Vector vetor_qtd_artistas = vector_create(INT);
     Vector vetor_musicas_playlist = vector_create(MUSICA);
     Vector vetor_artistas_playlist = vector_create(ARTISTA);
     
-    int playlist = 0, musica = 0,id,artista = 0,i,j,t=1;
+    int playlist = 0, musica = 0,id,artista = 0,i,j,t=1,n_musicas_playlist;
     int *poteiro_artistas_lista;
     int *h = &t;
     Musica musica1;
@@ -241,73 +241,78 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas){
 
     i = vector_size(vetor_playlist);
 
+    //listando as musicas nas playlists e contando a quantidade de vezes que aparecem
+
     for(playlist = 0; playlist < i;playlist++){
-        for(musica=0;musica<playlist_get_n_musicas(vector_get(vetor_playlist,playlist));musica++){
+        n_musicas_playlist = playlist_get_n_musicas(vector_get(vetor_playlist,playlist));
+        for(musica=0;musica<n_musicas_playlist;musica++){
             id = vector_find_id(vetor_musicas_playlist,vector_get(vector_get(vetor_playlist,playlist),musica));
             if(id == -1){
-                vector_add(vetor_musicas_playlist,vector_get(vector_get(vetor_playlist,playlist),musica));
-                vector_add(vetor_qtd_musicas,h);
-                //se não tiver no vetor qtd musicas
-            }else{
-                vetor_qtd_musicas->data[id] = vector_get(vetor_qtd_musicas,id) + 1;
-                //se já tiver no vetor qtd musicass
+                  musica1 = vector_get(vetor_musicas,playlist_get_musica(vector_get(vetor_playlist,playlist),musica));
+                  vector_add(vetor_musicas_playlist,musica1);
+                  vector_add(vetor_qtd_musicas,*h);
+                  //se não tiver no vetor qtd musicas
+              }else{
+                  vetor_qtd_musicas->data[id] = vector_get(vetor_qtd_musicas,id) + 1;
+                  //se já tiver no vetor qtd musicass
             }
         }
     }
 
     int *artistas_musicas;
 
-    for(playlist = 0; playlist < vector_size(vetor_playlist);playlist++){
-        for(musica=0;musica<playlist_get_n_musicas(vector_get(vetor_playlist,playlist));musica++){
-            artistas_musicas = musica_get_indices(vector_get(vector_get(vetor_playlist,playlist),musica));
-            poteiro_artistas_lista = musica_get_indices(musica1);
-            musica1 = vector_get(vector_get(vetor_playlist,playlist),musica);
-            for(artista = 0; artista < musica_get_n_artistas(musica1);artista++){
-                artista1 = vector_get(vetor_artistas,poteiro_artistas_lista[artista]);
-                id = vector_find_id(vetor_artistas_playlist,artista1);
-                if(id == -1){
-                vector_add(vetor_artistas_playlist,artista1);
-                vector_add(vetor_qtd_artistas,h);
-                //se não tiver no vetor qtd artistas
-            }else{
-                vetor_qtd_artistas->data[id] = vector_get(vetor_qtd_artistas,id) + 1;
-                //se já tiver no vetor qtd artistas
-            }
-            }
-        }
-    }
+    //listando os artistas nas playlists e contando a quantidade de vezes que aparecem
+    // for(playlist = 0; playlist < vector_size(vetor_playlist);playlist++){
+    //     for(musica=0;musica<playlist_get_n_musicas(vector_get(vetor_playlist,playlist));musica++){
+    //         artistas_musicas = musica_get_indices(vector_get(vector_get(vetor_playlist,playlist),musica));
+    //         poteiro_artistas_lista = musica_get_indices(musica1);
+    //         musica1 = vector_get(vector_get(vetor_playlist,playlist),musica);
+    //         for(artista = 0; artista < musica_get_n_artistas(musica1);artista++){
+    //             artista1 = vector_get(vetor_artistas,poteiro_artistas_lista[artista]);
+    //             id = vector_find_id(vetor_artistas_playlist,artista1);
+    //             if(id == -1){
+    //             vector_add(vetor_artistas_playlist,artista1);
+    //             vector_add(vetor_qtd_artistas,h);
+    //             //se não tiver no vetor qtd artistas
+    //         }else{
+    //             vetor_qtd_artistas->data[id] = vector_get(vetor_qtd_artistas,id) + 1;
+    //             //se já tiver no vetor qtd artistas
+    //         }
+    //         }
+    //     }
+    // }
 
     int aux;
     //Ordenar musicas
 
-    for(i=0;i<vector_size(vetor_musicas_playlist);i++){
-        for(j=i+1;j<vector_size(vetor_musicas_playlist);j++){
-            if(vetor_qtd_musicas->data[j]>vetor_qtd_musicas->data[i]){
-                aux = vetor_qtd_musicas->data[j];
-                vetor_qtd_musicas->data[j] = vetor_qtd_musicas->data[i];
-                vetor_qtd_musicas->data[i] = aux;
-                musica1 = vetor_musicas_playlist->data[j];
-                vetor_musicas_playlist->data[j] = vetor_musicas_playlist->data[i];
-                vetor_musicas_playlist->data[i] = musica1;
-            }
-        }
-    }
+    // for(i=0;i<vector_size(vetor_musicas_playlist);i++){
+    //     for(j=i+1;j<vector_size(vetor_musicas_playlist);j++){
+    //         if(vetor_qtd_musicas->data[j]>vetor_qtd_musicas->data[i]){
+    //             aux = vetor_qtd_musicas->data[j];
+    //             vetor_qtd_musicas->data[j] = vetor_qtd_musicas->data[i];
+    //             vetor_qtd_musicas->data[i] = aux;
+    //             musica1 = vetor_musicas_playlist->data[j];
+    //             vetor_musicas_playlist->data[j] = vetor_musicas_playlist->data[i];
+    //             vetor_musicas_playlist->data[i] = musica1;
+    //         }
+    //     }
+    // }
     
 
     //Ordenar artista
 
-    for(i=0;i<vector_size(vetor_artistas_playlist);i++){
-        for(j=i+1;j<vector_size(vetor_artistas_playlist);j++){
-            if(vetor_qtd_artistas->data[j]>vetor_qtd_artistas->data[i]){
-                aux = vetor_qtd_artistas->data[j];
-                vetor_qtd_artistas->data[j] = vetor_qtd_artistas->data[i];
-                vetor_qtd_artistas->data[i] = aux;
-                artista1 = vetor_artistas_playlist->data[j];
-                vetor_artistas_playlist->data[j] = vetor_artistas_playlist->data[i];
-                vetor_artistas_playlist->data[i] = artista1;
-            }
-        }
-    }
+    // for(i=0;i<vector_size(vetor_artistas_playlist);i++){
+    //     for(j=i+1;j<vector_size(vetor_artistas_playlist);j++){
+    //         if(vetor_qtd_artistas->data[j]>vetor_qtd_artistas->data[i]){
+    //             aux = vetor_qtd_artistas->data[j];
+    //             vetor_qtd_artistas->data[j] = vetor_qtd_artistas->data[i];
+    //             vetor_qtd_artistas->data[i] = aux;
+    //             artista1 = vetor_artistas_playlist->data[j];
+    //             vetor_artistas_playlist->data[j] = vetor_artistas_playlist->data[i];
+    //             vetor_artistas_playlist->data[i] = artista1;
+    //         }
+    //     }
+    // }
 
     FILE *pfile_musicas;
     FILE *pfile_artistas;
@@ -318,14 +323,14 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas){
     //Escrever o arquivos txt musica
 
     for(musica = 0;musica<vector_size(vetor_musicas_playlist);musica++){
-    fprintf("./musicas_playlist.txt","%d %s\n",vetor_qtd_musicas[musica],musica_get_nome(vetor_musicas_playlist->data[musica]));
+        fprintf(pfile_musicas,"%d %s\n",vetor_qtd_musicas->data[musica],musica_get_nome(vetor_musicas_playlist->data[musica]));
     }
 
 
     //Escrever o arquivo txt artista
 
     for(artista = 0;artista<vector_size(vetor_artistas_playlist);artista++){
-    fprintf("./artistas_playlist.txt","d %s\n",vetor_qtd_artistas[artista],artista_get_nome(vetor_artistas_playlist->data[artista]));
+    fprintf(pfile_artistas,"d %s\n",vetor_qtd_artistas[artista],artista_get_nome(vetor_artistas_playlist->data[artista]));
     }
 
     fclose(pfile_musicas);

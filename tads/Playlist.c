@@ -23,6 +23,10 @@ Playlist playlist_create()
     return playlist;
 }
 
+int playlist_get_musica(Playlist playlist,int idx){
+    return playlist->musicas[idx];
+}
+
 char *playlist_nome_create()
 {
     char nome_temp[200];

@@ -219,3 +219,15 @@ int artista_get_popularidade(Artista artista)
 {
     return artista->popularidade; // recupera a popularidade
 }
+
+int artista_compara(char *str_artista,Artista artista){
+    char *retorno;
+		retorno = strstr(artista_get_nome(artista),str_artista);
+		if(retorno != NULL){
+			return 1;
+			//caso igual
+		}else{
+			return 0;
+			//caso não igual
+		}
+}

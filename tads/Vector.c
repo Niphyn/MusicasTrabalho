@@ -227,8 +227,6 @@ void vector_listar_musica(int idx_m, Vector vetor_musica, Vector vetor_artista){
 
 void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector vetor_musicas){
 
-    Vector vetor_qtd_musicas = vector_create(INT);
-    Vector vetor_qtd_artistas = vector_create(INT);
     Vector vetor_musicas_playlist = vector_create(MUSICA_SHARED);
     Vector vetor_artistas_playlist = vector_create(ARTISTA_SHARED);
     
@@ -311,7 +309,7 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector
 
     for(i=0;i<vector_size(vetor_musicas_playlist);i++){
         for(j=i+1;j<vector_size(vetor_musicas_playlist);j++){
-            if(vetor_qtd_musicas->data[j]>vetor_qtd_musicas->data[i]){
+            if(lista_qtd_musicas[j] > lista_qtd_musicas[i]){
                 aux = lista_qtd_musicas[j];
                 lista_qtd_musicas[j] = lista_qtd_musicas[i];
                 lista_qtd_musicas[i] = aux;
@@ -327,7 +325,7 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector
 
     for(i=0;i<vector_size(vetor_artistas_playlist);i++){
         for(j=i+1;j<vector_size(vetor_artistas_playlist);j++){
-            if(vetor_qtd_artistas->data[j]>vetor_qtd_artistas->data[i]){
+            if(lista_qtd_artistas[j] > lista_qtd_artistas[i]){
                 aux = lista_qtd_artistas[j];
                 lista_qtd_artistas[j] = lista_qtd_artistas[i];
                 lista_qtd_artistas[i] = aux;
@@ -362,8 +360,8 @@ void vector_gerar_relatorio(Vector vetor_playlist, Vector vetor_artistas, Vector
 
     //Destruir os vetores
 
-    vector_destroy(vetor_qtd_musicas);
-    vector_destroy(vetor_qtd_artistas);
+    vector_destroy(vetor_musicas_playlist);
+    vector_destroy(vetor_artistas_playlist);
     free(lista_qtd_artistas);
     free(lista_qtd_musicas);
     

@@ -1,4 +1,4 @@
-ibtads.a: tads/Musica.c tads/Vector.c tads/Artista.c tads/Menu.c tads/Playlist.c tads/Musica.h tads/Vector.h tads/Artista.h tads/Menu.h  tads/Playlist.h
+libtads.a: tads/Musica.c tads/Vector.c tads/Artista.c tads/Menu.c tads/Playlist.c tads/Musica.h tads/Vector.h tads/Artista.h tads/Menu.h  tads/Playlist.h
 	gcc -g -c tads/Musica.c -o tads/Musica.o
 	gcc -g -c tads/Vector.c -o tads/Vector.o
 	gcc -g -c tads/Artista.c -o tads/Artista.o
